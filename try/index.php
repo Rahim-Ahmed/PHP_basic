@@ -1,12 +1,10 @@
 <?php
-$conn=mysqli_connect('localhost','rahim','1234','ninja_pizza');
-if(!$conn){
-    echo "Error connect".mysqli_connect_error();
-}
+include('config/db_connect.php');
 //write sql query
 $sql='SELECT * FROM pizzas ORDER BY create_at';
 //make query and get result
 $result = mysqli_query($conn,$sql);
+
 //fetch result as array
 $pizza=mysqli_fetch_all($result,MYSQLI_ASSOC);
 
@@ -24,23 +22,23 @@ mysqli_close($conn);
 
 <!DOCTYPE html>
 
-<?php include('header.php') ?>
+<?php include('templates/header.php') ?>
 
 
 <h4 class="center grey-text ">PIZZAS</h4>
 
 <div class="container">
     <div class="row ">
-      <?php foreach ($pizza as $pizz) {?>
+      <?php foreach ($pizza as $pizz):?>
         <div class="col s6 md3 ">
             <div class="card z-depth-0 ">
                 <div class="card-content center ">
                         <h6><?php echo htmlspecialchars($pizz['title']) ?></h6>
                         <ul>
-                            <?php foreach(explode(',',$pizza[0]['ingredient'])as $ing){ ?>
+                            <?php foreach(explode(',',$pizz['ingredient'])as $ing): ?>
                             <li><?php echo htmlspecialchars($ing); ?></li>
 
-                            <?php } ?>
+                            <?php endforeach; ?>
                         </ul>
                 </div>
                 <div class="card-action right-align">
@@ -49,11 +47,20 @@ mysqli_close($conn);
             </div>
         </div>
 
-    <?php } ?>
+    <?php endforeach; ?>
+
 
     </div>
 
 </div>
+<div class="hudai center grey-text ">
+<?php if(count($pizza) <= 2):?>
+       <p> There are 2 pizza </p>
+    <?php else: ?>
+        <p> There are greater then <?php echo count($pizza); ?> pizza </p>
+    <?php endif; ?>
+</div>
 
-<?php include('footer.php') ?>
+
+<?php include('templates/footer.php') ?>
 </html>

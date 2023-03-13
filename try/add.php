@@ -1,4 +1,5 @@
 <?php
+    include('config/db_connect.php');
     // if(isset($_GET['submit']) ){
     //     echo $_GET['email'] .$_GET['title'].$_GET['Ingredients'];
     // }
@@ -43,8 +44,18 @@
             # code...
            // echo "form is not valid";
         }else{
-            
-           header('location: index.php');
+            $email= mysqli_real_escape_string($conn,$_POST['email']);
+            $title= mysqli_real_escape_string($conn,$_POST['title']);
+            $Ingredients= mysqli_real_escape_string($conn,$_POST['Ingredients']);
+          
+            $sql="INSERT INTO pizzas (title,ingredient,email) VALUES('$title','$Ingredients','$email')";
+
+            if(!mysqli_query($conn,$sql)){
+                echo "query error".mysqli_error($conn);
+            }
+            else{
+                header('Location: index.php');
+            }
         }
 
 
@@ -55,7 +66,7 @@
 
 
 <!DOCTYPE html>
-<?php include('header.php') ?>
+<?php include('templates/header.php') ?>
 <section class="container grey-text">
   <h4 class="center">Add a pizza</h4>
   
@@ -78,5 +89,5 @@
 
   </form>
 </section>
-<?php include('footer.php') ?>
+<?php include('templates/footer.php') ?>
 </html>

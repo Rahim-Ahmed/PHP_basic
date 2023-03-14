@@ -60,7 +60,9 @@
 
 
     }
-
+    if(isset($_POST['back'])){
+        header('Location: index.php');
+    }
 
 ?>
 
@@ -69,8 +71,8 @@
 <?php include('templates/header.php') ?>
 <section class="container grey-text">
   <h4 class="center">Add a pizza</h4>
-  
-  <form class="white" action="app.php" method='POST'>
+ 
+  <form class="white" action="  <?php echo $_SERVER['PHP_SELF'] ?> " method='POST'>
     <label for="">Your Email:</label>
     <input type="text" name='email' value="<?php echo htmlspecialchars($email);?>" > 
     <div class="red-text"><?php echo $err['email']; ?></div>
@@ -85,6 +87,7 @@
 
     <div class="center">
         <input type="submit" value='submit' name='submit' class="btn brand  z-depth-0">
+        <input type="Submit" name="back" value="Back" class="btn brand z-depth-0">
     </div>
 
   </form>
